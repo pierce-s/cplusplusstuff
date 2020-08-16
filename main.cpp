@@ -262,35 +262,7 @@ void Place_Piece(Grid& grid, Piece piece, int rotation, int position){
 }
 
 
-
-
-//vector<int> Peaks(Grid grid){
-//    vector<int> peaks;
-//    for (int width = 0; width < grid.cols; width++){
-//        for (int height = 0; height < grid.rows; height++){
-//            peaks.push_back(0);
-//            if (grid.matrix[height][width] != ' '){
-//                peaks[width] = grid.rows - height;
-//                break;
-//            }
-//
-//        }
-//
-//
-//    }
-//    return peaks;
-//}
-
-
-// -------- Not in use, returns the sum of every column height
-//int Height(Grid grid){
-//    vector<int> peaks = Peaks(grid);
-//    //cout << peaks.begin() << "," << peaks.end() << endl;
-//    return accumulate(peaks.begin(), peaks.end(), 0);
-//}
-
-
-
+// Scores the grid based on holes and height
 int Holes(Grid grid){
     bool Top;
     //int holes = 0;
@@ -302,16 +274,19 @@ int Holes(Grid grid){
                 Top = true;
             }
             if (Top){
+                // buried holes, scored heavier
                 if (grid.matrix[height][width] == ' '){
                     //holes +=1;
                     holescore += pow(grid.rows - height , 3);
                 }
+                // left sided wells
                 if (width > 0){
                     if (grid.matrix[height][width-1] == ' '){
                     //holes +=1;
                     holescore += pow(grid.rows - height , 2);
                     }
                 }
+                // right sided wells
                 if (width < grid.cols - 1){
                     if (grid.matrix[height][width+1] == ' '){
                     //holes +=1;
